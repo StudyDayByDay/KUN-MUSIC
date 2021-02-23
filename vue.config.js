@@ -13,6 +13,7 @@ module.exports = {
     css:{
         loaderOptions:{
             scss: {
+                // 这里加不加~都可以   ~@/scss/global.scss或者@/scss/global.scss
                 prependData: `@import "~@/scss/global.scss";`
             },
         }
