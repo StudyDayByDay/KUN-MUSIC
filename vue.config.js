@@ -18,6 +18,19 @@ module.exports = {
             },
         }
     },
+    // 配置代理
+    devServer: {
+        proxy: {
+            '/': {
+                target: 'http://localhost:3000/',
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/': ''
+                }
+            }
+        }
+    },
     // 全局路径配置
     chainWebpack: config => {
         config.resolve.alias

@@ -1,36 +1,35 @@
 <template>
 <div class="container">
+    <!-- 音频控件 -->
+    <div class="mp3Play">
+        <div class="image">
+            <img src="../../public/img/flower.png" alt="图片">
+        </div>
+        <div class="middle-box">
+            <span class="title">
+                <span class="big">Better Now</span>
+                <span class="small">-Blanks</span>
+            </span>
+            <!-- 播放按钮 -->
+            <i class="WYY-font" :class="[playStatus ? 'WYYpause--outline--filled' : 'WYYplay--filled']" @click="play"></i>
+        </div>
+        <i class="WYY-font WYYbofangliebiao"></i>
+        <audio
+            src="../../public/mp3/young.mp3"
+            ref="audio"
+            @pause="musicPause()"
+            @ended="musicEnded()"
+            @play="playLoad()"
+        ></audio>
+    </div>
+    <!-- 底部路由 -->
     <div class="bottom">
         <ul>
             <!-- 用for循环来把这里替代，数据自己构造 -->
-            <li>
+            <li v-for="(item, index) in icons" :key="index" @click="currentIndex = index">
                 <div class="cumb">
-                    <i class="WYY-font WYYmusiccloud"></i>
-                    <span>发现</span>
-                </div>
-            </li>
-            <li>
-                <div class="cumb">
-                    <i class="WYY-font WYYboke"></i>
-                    <span>播客</span>
-                </div>
-            </li>
-            <li>
-                <div class="cumb">
-                    <i class="WYY-font WYYyinyue"></i>
-                    <span>我的</span>
-                </div>
-            </li>
-            <li>
-                <div class="cumb">
-                    <i class="WYY-font WYYchangge"></i>
-                    <span>k歌</span>
-                </div>
-            </li>
-            <li>
-                <div class="cumb">
-                    <i class="WYY-font WYYqun"></i>
-                    <span>云村</span>
+                    <i class="WYY-font" :class="[item.cla, currentIndex === index ? 'chose' : '']"></i>
+                    <span :class="[currentIndex === index ? 'spanChange' : '']">{{item.label}}</span>
                 </div>
             </li>
         </ul>
@@ -44,12 +43,46 @@
 export default {
     data() {
         return {
-
+            playStatus: false,
+            icons: [
+                { cla: 'WYYmusiccloud', label: '发现' },
+                { cla: 'WYYboke', label: '播客' },
+                { cla: 'WYYyinyue', label: '我的' },
+                { cla: 'WYYchangge', label: 'k歌' },
+                { cla: 'WYYqun', label: '云村' }
+            ],
+            currentIndex: 0
         }
-    }
+    },
     // components: {
     //     helloWord: helloWord
     // }
+    methods: {
+        // 播放按钮切换
+        play() {
+            if (this.playStatus) {
+                // 暂停播放
+                this.playStatus = !this.playStatus
+                this.$refs.audio.pause();
+            } else {
+                // 开始播放
+                this.playStatus = !this.playStatus
+                this.$refs.audio.play();
+            }
+        },
+        // 播放
+        playLoad() {
+
+        },
+        // 暂停
+        musicPause() {
+
+        },
+        // 结束
+        musicEnded() {
+            console.log('播放结束', '🤖')
+        }
+    }
 }
 </script>
 
@@ -57,6 +90,60 @@ export default {
 .container {
     height: 100%;
     width: 100%;
+    .mp3Play {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        height: 40px;
+        width: 100%;
+        background: rgba($color: #000000, $alpha: .7);
+        .image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            bottom: 5px;
+            height: 40px;
+            width: 40px;
+            margin-left: 10px;
+            border-radius: 50%;
+            background-color: #000;
+            img {
+                height: 30px;
+                width: 30px;
+                border-radius: 50%;
+                border: 1px solid black;
+                background-color: pink;
+            }
+        }
+        .middle-box {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            .title {
+                line-height: 40px;
+                padding-left: 5px;
+                color: #fff;
+                .big {
+
+                }
+                .small {
+                    font-size: 12px;
+                    color: #cac6c6;
+                }
+            }
+        }
+        i {
+            height: 40px;
+            width: 40px;
+            color: #fff;
+            font-size: 32px;
+            margin-right: 10px;
+            // background-color: pink;
+        }
+    }
     .bottom {
         position: fixed;
         bottom: 0;
@@ -80,7 +167,19 @@ export default {
                     align-items: center;
                     color: #8a8a8a;
                     i {
-                        font-size: 36px;
+                        height: 30px;
+                        width: 30px;
+                        line-height: 30px;
+                        text-align: center;
+                        font-size: 23px;
+                    }
+                    .spanChange {
+                        color: #be3f3a;
+                    }
+                    .chose {
+                        color: #fff;
+                        border-radius: 50%;
+                        background-color: #be3f3a;
                     }
                 }
             }
